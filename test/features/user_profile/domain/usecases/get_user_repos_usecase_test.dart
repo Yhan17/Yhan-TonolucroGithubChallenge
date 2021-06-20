@@ -14,17 +14,24 @@ void main() {
   final repository = UserProfileRepositoryMock();
   final usecase = GetUserReposUsecase(repository);
 
+  test("Deve Retornar uma lista de Repositórios", () async {
+    when(repository.getUserRepos("Yhan17"))
+        .thenAnswer((_) async => right(<UserRepoEntity>[repoEntity]));
+
+    final result = await usecase("Yhan17");
+    expect(result?.fold(id, id), isA<List<UserRepoEntity>>());
+  });
   test(
       "Deve Retornar NullFailure caso não seja passado usuario para os repositorios",
       () async {
     final result = await usecase(null);
     expect(result, Left(NullUserParam()));
   });
-  test("Deve Retornar uma lista de Repositórios", () async {
+  test('Deve retornar um EmptyList caso o retorno seja vazio', () async {
     when(repository.getUserRepos("Yhan17"))
-        .thenAnswer((_) async => const Right(<UserRepoEntity>[repoEntity]));
+        .thenAnswer((_) async => const Right(<UserRepoEntity>[]));
 
     final result = await usecase("Yhan17");
-    expect(result, isA<List<UserRepoEntity>>());
+    expect(result, Left(EmptyList()));
   });
 }
