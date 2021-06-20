@@ -1,10 +1,9 @@
 import "package:dartz/dartz.dart";
+import '/core/errors/failures.dart';
+import '/features/user_profile/domain/entities/user_profile_entity.dart';
 //Padrão Dart
-import '../entities/user_entity.dart';
-import '/features/user_profile/domain/errors/errors.dart';
 
 abstract class UserProfileRepository {
-  Future<Either<InvalidUserProfile, UserEntity>>? getUserProfile(String? nick);
-
-  Future<Either<FailureUserProfile, UserEntity>>? getProfileRequest(String? nick);
+  Future<Either<Failure, UserProfileEntity>>? getUserProfile(
+      String? nick);
 }

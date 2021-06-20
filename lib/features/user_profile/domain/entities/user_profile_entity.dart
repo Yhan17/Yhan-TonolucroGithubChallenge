@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
 
-class GithubEntity extends Equatable {
+class UserProfileEntity extends Equatable {
   final String nick;
   final String name;
   final String avatar;
   final String bio;
 
-  const GithubEntity(
+  const UserProfileEntity(
       {required this.nick,
       required this.name,
       required this.avatar,
