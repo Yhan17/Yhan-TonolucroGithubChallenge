@@ -19,3 +19,9 @@ class NullUserParam extends Failure {
   // TODO: implement props
   List<Object?> get props => [];
 }
+
+class EmptyList extends Failure {
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
