@@ -1,3 +1,5 @@
-class FailureUserProfile implements Exception {}
+abstract class Failure implements Exception {}
 
-class InvalidUserProfile implements FailureUserProfile {}
+class FailureUserProfile extends Failure {}
+
+class InvalidUserProfile extends Failure {}

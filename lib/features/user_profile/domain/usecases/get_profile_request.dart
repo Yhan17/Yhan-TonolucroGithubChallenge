@@ -4,12 +4,15 @@ import '/features/user_profile/domain/entities/user_entity.dart';
 import '/features/user_profile/domain/errors/errors.dart';
 import '/features/user_profile/domain/repostiories/user_profile_repository.dart';
 
-class GetUserProfile {
+class GetProfileRequest {
   final UserProfileRepository repository;
 
-  GetUserProfile(this.repository);
+  GetProfileRequest(this.repository);
 
-  Future<Either<Failure, UserEntity>?> call(String nick) async {
-    return repository.getUserProfile(nick);
+  Future<Either<Failure, UserEntity>?> call(String? nick) async {
+    if (nick != null) {
+      return await repository.getProfileRequest(nick);
+    }
+    return Left(FailureUserProfile());
   }
 }
