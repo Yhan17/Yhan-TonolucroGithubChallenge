@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import '/core/errors/failures.dart';
 import '/features/user_profile/domain/entities/user_profile_entity.dart';
 import '/features/user_profile/domain/entities/user_repos_entity.dart';
-import '/features/user_profile/domain/repostiories/user_profile_repository.dart';
+import '/features/user_profile/domain/repositories/user_profile_repository.dart';
 import '/features/user_profile/infra/datasources/github_datasource.dart';
 import '/features/user_profile/infra/models/user_profile_model.dart';
 

@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tonolucro_challenge/core/errors/failures.dart';
 import 'package:tonolucro_challenge/features/user_profile/domain/entities/user_profile_entity.dart';
-import 'package:tonolucro_challenge/features/user_profile/domain/repostiories/user_profile_repository.dart';
+import 'package:tonolucro_challenge/features/user_profile/domain/repositories/user_profile_repository.dart';
 import 'package:tonolucro_challenge/features/user_profile/domain/usecases/get_user_profile_usecase.dart';
 
 import '../../mocks/profile_name_mock.dart';
