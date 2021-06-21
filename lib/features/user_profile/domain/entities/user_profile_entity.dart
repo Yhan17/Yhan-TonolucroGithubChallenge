@@ -6,14 +6,12 @@ class UserProfileEntity extends Equatable {
   final String name;
   final String avatar;
   final String bio;
-  final List<UserRepoEntity>? repos;
 
   const UserProfileEntity({
     required this.nick,
     required this.name,
     required this.avatar,
     required this.bio,
-    this.repos,
   });
 
   @override
