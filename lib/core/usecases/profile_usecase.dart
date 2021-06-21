@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import '/core/errors/failures.dart';
 
-abstract class Usecase<Output, Input> {
+abstract class ProfileUsecase<Output, Input> {
   Future<Either<Failure, Output>?> call(Input params);
 }
 

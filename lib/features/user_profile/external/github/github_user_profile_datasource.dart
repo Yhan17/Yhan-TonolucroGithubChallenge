@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:tonolucro_challenge/core/errors/failures.dart';
 
-import '../../infra/datasources/github_datasource.dart';
+import '../../infra/datasources/abstract_github_profile_datasource.dart';
 import '/features/user_profile/infra/models/user_profile_model.dart';
 import '/features/user_profile/infra/models/user_repos_model.dart';
 
-class GithubUserProfileDatasource implements GithubDatasource {
+class GithubUserProfileDatasource implements AbstractGithubDatasource {
   @override
   Future<List<UserRepoModel>> searchRepos(String? nickname) async {
     final response = await http

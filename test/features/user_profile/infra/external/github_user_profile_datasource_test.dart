@@ -13,9 +13,6 @@ void main() {
   final datasource = GithubUserProfileDatasource();
 
   test("Testa Requisição na Api usuario", () async {
-    final client = MockClient((request) async {
-      return http.Response(json.encode(response), 200);
-    });
     final result =
         await http.get(Uri.parse("https://api.github.com/users/Yhan17"));
 

@@ -13,6 +13,11 @@ class UserProfileDataSourceFailure extends Failure {
   // TODO: implement props
   List<Object?> get props => [];
 }
+class RepoContributorsDataSourceFailure extends Failure {
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
 
 class InvalidUserParam extends Failure {
   @override
