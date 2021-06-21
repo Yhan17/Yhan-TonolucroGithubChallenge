@@ -4,13 +4,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:tonolucro_challenge/core/errors/failures.dart';
-import 'package:tonolucro_challenge/features/user_profile/infra/datasources/user_profile_datasource.dart';
+import 'package:tonolucro_challenge/features/user_profile/external/github/github_user_profile_datasource.dart';
 import 'package:tonolucro_challenge/features/user_profile/infra/models/user_profile_model.dart';
 import 'package:tonolucro_challenge/features/user_profile/infra/models/user_repos_model.dart';
-import '../../mocks/user_request_mock.dart';
+import '../../mocks/user_external_request_mock.dart';
 
 void main() {
-  final datasource = UserProfileDatasource();
+  final datasource = GithubUserProfileDatasource();
 
   test("Testa Requisição na Api usuario", () async {
     final client = MockClient((request) async {

@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:tonolucro_challenge/core/errors/failures.dart';
 
-import '/core/datasources/github_user_datasource.dart';
+import '../../infra/datasources/github_datasource.dart';
 import '/features/user_profile/infra/models/user_profile_model.dart';
 import '/features/user_profile/infra/models/user_repos_model.dart';
 
-class UserProfileDatasource implements GithubDatasource {
+class GithubUserProfileDatasource implements GithubDatasource {
   @override
-  Future<List<UserRepoModel>> searchRepos(String nickname) async {
+  Future<List<UserRepoModel>> searchRepos(String? nickname) async {
     final response = await http
         .get(Uri.parse("https://api.github.com/users/$nickname/repos"));
     if (response.statusCode == 200) {
@@ -23,7 +23,7 @@ class UserProfileDatasource implements GithubDatasource {
   }
 
   @override
-  Future<UserProfileModel> searchUser(String nickname) async {
+  Future<UserProfileModel> searchUser(String? nickname) async {
     final response =
         await http.get(Uri.parse("https://api.github.com/users/$nickname"));
     if (response.statusCode == 200) {

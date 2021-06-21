@@ -6,7 +6,7 @@ import 'package:tonolucro_challenge/features/user_profile/domain/entities/user_r
 import 'package:tonolucro_challenge/features/user_profile/domain/repostiories/user_profile_repository.dart';
 import 'package:tonolucro_challenge/features/user_profile/domain/usecases/get_user_repos_usecase.dart';
 
-import '../../mocks/repos_mock.dart';
+import '../../mocks/user_repos_entity_mock.dart';
 
 class UserProfileRepositoryMock extends Mock implements UserProfileRepository {}
 
