@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tonolucro_challenge/core/errors/failures.dart';
-import 'package:tonolucro_challenge/features/repository_contributors/domain/entities/contributor_entity.dart';
 import 'package:tonolucro_challenge/features/repository_contributors/external/github/github_contributor_datasource.dart';
 import 'package:tonolucro_challenge/features/repository_contributors/infra/models/contributor_model.dart';
 import 'package:tonolucro_challenge/features/repository_contributors/infra/repositories/contributor_repository_implementation.dart';
