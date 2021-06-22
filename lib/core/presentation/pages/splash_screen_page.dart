@@ -2,6 +2,7 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:tonolucro_challenge/features/user_profile/presentation/pages/search_user_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:tonolucro_challenge/features/user_profile/presentation/pages/user_profile_page.dart';
 
 class SplashScreenPage extends StatelessWidget {
   const SplashScreenPage({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class SplashScreenPage extends StatelessWidget {
         width: 300,
         height: 300,
       ),
-      nextScreen: const SearchUserPage(),
+      nextScreen: const UserProfilePage(),
       splashTransition: SplashTransition.fadeTransition,
     );
   }
