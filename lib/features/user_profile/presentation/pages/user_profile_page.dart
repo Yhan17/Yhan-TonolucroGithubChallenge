@@ -17,7 +17,7 @@ class UserProfilePage extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
               color: const Color(0xFF24292E),
             ),
-            UserRepoListWidget()
+            const UserRepoListWidget()
           ],
         ),
       ),
