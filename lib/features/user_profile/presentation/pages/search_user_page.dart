@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tonolucro_challenge/features/user_profile/domain/usecases/get_user_profile_usecase.dart';
-import 'package:tonolucro_challenge/features/user_profile/domain/usecases/get_user_repos_usecase.dart';
-import 'package:tonolucro_challenge/features/user_profile/external/github/github_user_profile_datasource.dart';
-import 'package:tonolucro_challenge/features/user_profile/infra/repositories/user_profile_repository_implementation.dart';
-import 'package:tonolucro_challenge/features/user_profile/presentation/providers/search_profile_notifier_provider.dart';
-import 'package:tonolucro_challenge/features/user_profile/presentation/providers/search_page_state.dart';
+
+import '/features/user_profile/domain/usecases/get_user_profile_usecase.dart';
+import '/features/user_profile/domain/usecases/get_user_repos_usecase.dart';
+import '/features/user_profile/external/github/github_user_profile_datasource.dart';
+import '/features/user_profile/infra/repositories/user_profile_repository_implementation.dart';
+import '/features/user_profile/presentation/providers/search_page_state.dart';
+import '/features/user_profile/presentation/providers/search_profile_notifier_provider.dart';
+import '/features/user_profile/presentation/widgets/search_user_text_widget.dart';
 
 class SearchUserPage extends ConsumerWidget {
   SearchUserPage({Key? key}) : super(key: key);
@@ -59,56 +61,45 @@ class SearchUserPage extends ConsumerWidget {
                         fontFamily: 'SF Pro Display',
                         fontSize: 16),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 60, vertical: 29),
-                    child: TextFormField(
-                        controller: _controller,
-                        keyboardType: TextInputType.text,
-                        style: const TextStyle(
-                          color: Colors.white,
-                        ),
-                        cursorColor: Colors.white,
-                        onChanged: (param) {},
-                        decoration: InputDecoration(
-                            floatingLabelBehavior: FloatingLabelBehavior.always,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: const BorderSide(color: Colors.grey),
+                  ProviderListener(
+                    onChange: (context, state) {},
+                    provider: _userProfile,
+                    child: Consumer(
+                      builder: (context, watch, child) {
+                        final state = watch(_userProfile);
+                        if (state is ProfileInitial) {
+                          return SearchUserTextInputWidget(
+                              controller: _controller);
+                        }
+
+                        if (state is ProfileLoading) {
+                          // ignore: avoid_unnecessary_containers
+                          return const Padding(
+                            padding: EdgeInsets.all(12),
+                            child: SizedBox(
+                              width: 50,
+                              height: 50,
+                              child: CircularProgressIndicator(),
                             ),
-                            errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: const BorderSide(color: Colors.grey),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: const BorderSide(color: Colors.grey),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: const BorderSide(color: Colors.grey),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: const BorderSide(color: Colors.grey),
-                            ),
-                            disabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(
-                                  color: Colors.white, width: 40),
-                            ),
-                            labelText: "Usuário",
-                            labelStyle: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                color: Colors.white))),
+                          );
+                        }
+
+                        if (state is ProfileError) {
+                          return SearchUserTextInputWidget(
+                              controller: _controller,
+                              errorText: "Erro ao realizar a requisição");
+                        }
+                        return SearchUserTextInputWidget(
+                            controller: _controller);
+                      },
+                    ),
                   ),
                   TextButton(
                     onPressed: () {
-                      var a = context
+                      context
                           .read(_userProfile.notifier)
-                          .getProfile(_controller.text);
-                      print(a.toString());
+                          .getProfile(_controller.text.trim());
+                      _controller.text = "";
                     },
                     style: ButtonStyle(
                         elevation: MaterialStateProperty.all(5),
@@ -118,6 +109,7 @@ class SearchUserPage extends ConsumerWidget {
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
+
                         )),
                         padding: MaterialStateProperty.all(
                             const EdgeInsets.symmetric(

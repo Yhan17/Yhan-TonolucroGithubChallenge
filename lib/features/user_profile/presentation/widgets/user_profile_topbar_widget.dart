@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:tonolucro_challenge/features/user_profile/domain/entities/user_profile_entity.dart';
 
 class UserProfileTopbarWidget extends PreferredSize {
+  final UserProfileEntity entity;
   static const size = Size.fromHeight(250);
-  UserProfileTopbarWidget()
+  UserProfileTopbarWidget({required this.entity})
       : super(
             preferredSize: size,
             child: SafeArea(
@@ -20,9 +22,8 @@ class UserProfileTopbarWidget extends PreferredSize {
                           height: 80,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(900),
-                            image: const DecorationImage(
-                                image: NetworkImage(
-                                    "https://ui-avatars.com/api/?name=Yhan&color=ffffff&background=6a86a1"),
+                            image: DecorationImage(
+                                image: NetworkImage(entity.avatar),
                                 fit: BoxFit.fill),
                           ),
                         ),
@@ -34,13 +35,13 @@ class UserProfileTopbarWidget extends PreferredSize {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "Yhan17",
+                                entity.nick,
                                 style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 20,
                                     fontFamily: "SF Pro Display"),
                               ),
-                              Text("Yhan Nunes",
+                              Text(entity.name,
                                   style: const TextStyle(
                                       color: Colors.grey,
                                       fontSize: 20,
@@ -50,7 +51,7 @@ class UserProfileTopbarWidget extends PreferredSize {
                         )
                       ],
                     ),
-                    Text("Biografia",
+                    Text(entity.bio,
                         style: const TextStyle(
                             color: Colors.white,
                             fontSize: 20,

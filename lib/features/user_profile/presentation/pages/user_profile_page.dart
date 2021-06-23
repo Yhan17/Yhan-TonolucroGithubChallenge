@@ -1,14 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tonolucro_challenge/features/user_profile/domain/entities/user_profile_entity.dart';
 import 'package:tonolucro_challenge/features/user_profile/presentation/widgets/user_profile_topbar_widget.dart';
 import 'package:tonolucro_challenge/features/user_profile/presentation/widgets/user_repos_list_widget.dart';
 
 class UserProfilePage extends StatelessWidget {
-  const UserProfilePage({Key? key}) : super(key: key);
+  final UserProfileEntity entity;
+
+  const UserProfilePage({Key? key, required this.entity}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: UserProfileTopbarWidget(),
+      appBar: UserProfileTopbarWidget(
+        entity: entity,
+      ),
       body: Container(
         child: Column(
           children: [
