@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tonolucro_challenge/core/util/functions.dart';
 import 'package:tonolucro_challenge/features/repository_contributors/domain/usecases/get_contributors_usecase.dart';
 import 'package:tonolucro_challenge/features/repository_contributors/external/github/github_contributor_datasource.dart';
 import 'package:tonolucro_challenge/features/repository_contributors/infra/repositories/contributor_repository_implementation.dart';
@@ -44,6 +45,12 @@ class GithubRepoCard extends StatelessWidget {
               style: const TextStyle(
                   color: Colors.white,
                   fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "SF Pro Display")),
+          Text("Última Atualização: ${formatDate(repo.updatedAt)}",
+              style: const TextStyle(
+                  color: Colors.grey,
+                  fontSize: 12,
                   fontWeight: FontWeight.bold,
                   fontFamily: "SF Pro Display")),
           Text(

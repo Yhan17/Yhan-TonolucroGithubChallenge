@@ -6,17 +6,20 @@ class UserRepoModel extends UserRepoEntity {
       required int forks,
       required String description,
       required String language,
+      required DateTime updatedAt,
       required int stars})
       : super(
             forks: forks,
             name: name,
             stars: stars,
             description: description,
-            language: language);
+            language: language,
+            updatedAt: updatedAt);
 
   factory UserRepoModel.fromJson(Map<String, dynamic> json) => UserRepoModel(
         name: json['name'].toString(),
         description: json['description'].toString(),
+        updatedAt: DateTime.parse(json["updated_at"].toString()),
         language: json['language'].toString(),
         forks: int.parse(json['forks'].toString()),
         stars: int.parse(json['stargazers_count'].toString()),
@@ -34,6 +37,7 @@ class UserRepoModel extends UserRepoEntity {
     return UserRepoModel(
       name: map['name'].toString(),
       description: map['description'].toString(),
+      updatedAt: DateTime.parse(map["updated_at"].toString()),
       language: map['language'].toString(),
       forks: int.parse(map['forks'].toString()),
       stars: int.parse(map['stargazers_count'].toString()),
