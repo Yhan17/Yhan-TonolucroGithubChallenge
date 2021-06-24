@@ -6,7 +6,6 @@ import 'package:tonolucro_challenge/features/user_profile/presentation/widgets/u
 
 class UserProfilePage extends StatelessWidget {
   final UserProfileEntity entity;
-
   const UserProfilePage({Key? key, required this.entity}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -22,7 +21,7 @@ class UserProfilePage extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
               color: const Color(0xFF24292E),
             ),
-            const UserRepoListWidget()
+            UserRepoListWidget(entity: entity)
           ],
         ),
       ),

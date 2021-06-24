@@ -2,42 +2,42 @@ import '/core/errors/failures.dart';
 
 import '/features/user_profile/domain/entities/user_profile_entity.dart';
 
-abstract class ProfileState {
-  const ProfileState();
+abstract class SearchState {
+  const SearchState();
 }
 
-class ProfileInitial extends ProfileState {
-  const ProfileInitial();
+class SearchInitial extends SearchState {
+  const SearchInitial();
 }
 
-class ProfileLoading extends ProfileState {
-  const ProfileLoading();
+class SearchLoading extends SearchState {
+  const SearchLoading();
 }
 
-class ProfileLoaded extends ProfileState {
+class SearchLoaded extends SearchState {
   final UserProfileEntity profile;
-  const ProfileLoaded(this.profile);
+  const SearchLoaded(this.profile);
 
   @override
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
 
-    return o is ProfileLoaded && o.profile == profile;
+    return o is SearchLoaded && o.profile == profile;
   }
 
   @override
   int get hashCode => profile.hashCode;
 }
 
-class ProfileError extends ProfileState {
+class SearchError extends SearchState {
   final Failure failure;
-  const ProfileError(this.failure);
+  const SearchError(this.failure);
 
   @override
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
 
-    return o is ProfileError && o.failure == failure;
+    return o is SearchError && o.failure == failure;
   }
 
   @override

@@ -7,22 +7,22 @@ import '/features/user_profile/domain/usecases/get_user_profile_usecase.dart';
 import '/features/user_profile/domain/usecases/get_user_repos_usecase.dart';
 import '/features/user_profile/presentation/providers/search_page_state.dart';
 
-class SearchProfileNotifierProvider extends StateNotifier<ProfileState> {
+class SearchProfileNotifierProvider extends StateNotifier<SearchState> {
   final GetUserProfileUsecase getUserProfileUsecase;
-  final GetUserReposUsecase getUserReposUsecase;
+  
   static final _navigationService = locator<NavigationService>();
 
   SearchProfileNotifierProvider(
-      {required this.getUserProfileUsecase, required this.getUserReposUsecase})
-      : super(const ProfileInitial());
+      {required this.getUserProfileUsecase})
+      : super(const SearchInitial());
 
   Future<void> getProfile(String profileName) async {
-    state = const ProfileLoading();
+    state = const SearchLoading();
     final result = await getUserProfileUsecase(profileName);
     result?.fold((l) {
-      state = ProfileError(l);
+      state = SearchError(l);
     }, (r) {
-      state = ProfileLoaded(r);
+      state = SearchLoaded(r);
       _navigationService.navigateTo(routes.userProfileRoute, arguments: r);
     });
   }

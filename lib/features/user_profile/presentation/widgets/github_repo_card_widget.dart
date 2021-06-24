@@ -24,7 +24,10 @@ class GithubRepoCard extends StatelessWidget {
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                   fontFamily: "SF Pro Display")),
-          Text(repo.description ?? 'Sem Descrição',
+          Text(
+              repo.description == null
+                  ? 'Sem Descrição'
+                  : repo.description.toString(),
               style: const TextStyle(
                   color: Colors.white,
                   fontSize: 12,
@@ -46,7 +49,9 @@ class GithubRepoCard extends StatelessWidget {
                       Icons.circle,
                       color: Colors.green,
                     ),
-                    value: repo.language ?? "Não definido",
+                    value: repo.language != null
+                        ? repo.language.toString()
+                        : "Não definido",
                   ),
                   GithubRepoCardIconWidget(
                     icon: const Icon(

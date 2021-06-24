@@ -1,58 +1,67 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tonolucro_challenge/features/user_profile/domain/entities/user_profile_entity.dart';
 import 'package:tonolucro_challenge/features/user_profile/domain/entities/user_repos_entity.dart';
+import 'package:tonolucro_challenge/features/user_profile/domain/usecases/get_user_repos_usecase.dart';
+import 'package:tonolucro_challenge/features/user_profile/external/github/github_user_profile_datasource.dart';
+import 'package:tonolucro_challenge/features/user_profile/infra/repositories/user_profile_repository_implementation.dart';
+import 'package:tonolucro_challenge/features/user_profile/presentation/providers/user_repos_notifier_provider.dart';
+import 'package:tonolucro_challenge/features/user_profile/presentation/providers/user_repos_state.dart';
 
 import 'github_repo_card_widget.dart';
 
-class UserRepoListWidget extends StatelessWidget {
-  static List<Map> repos = [
-    {
-      "name": "Repositório",
-      "description": "Uma bela descrição",
-      "language": "Vue",
-      "stars": 10,
-      "forks": 3,
-    },
-    {
-      "name": "Repositório2",
-      "description": "Uma bela descrição",
-      "language": null,
-      "stars": 10,
-      "forks": 3,
-    },
-    {
-      "name": "Repositório",
-      "description": null,
-      "language": "Vue",
-      "stars": 10,
-      "forks": 3,
-    },
-    {
-      "name": "Repositório",
-      "description": null,
-      "language": "Vue",
-      "stars": 10,
-      "forks": 3,
-    },
-    {
-      "name": "Repositório",
-      "description": null,
-      "language": "Vue",
-      "stars": 10,
-      "forks": 3,
-    },
-    {
-      "name": "Repositório",
-      "description": null,
-      "language": "Vue",
-      "stars": 10,
-      "forks": 3,
-    },
-  ];
-  const UserRepoListWidget({Key? key}) : super(key: key);
+class UserRepoListWidget extends StatefulWidget {
+  final UserProfileEntity entity;
+  const UserRepoListWidget({Key? key, required this.entity}) : super(key: key);
+
+  @override
+  _UserRepoListWidgetState createState() => _UserRepoListWidgetState();
+}
+
+class _UserRepoListWidgetState extends State<UserRepoListWidget> {
+  final _userRepos =
+      StateNotifierProvider<UserRepoNotifierProvider, UserRepoState>((
+    ref,
+  ) {
+    final profileDataSource = Provider((ref) => GithubUserProfileDatasource());
+    final userProfileRepository = Provider((ref) =>
+        UserProfileRepositoryImplementation(ref.read(profileDataSource)));
+
+    final getUserReposUsecase =
+        Provider((ref) => GetUserReposUsecase(ref.read(userProfileRepository)));
+
+    return UserRepoNotifierProvider(
+        getUserReposUsecase: ref.read(getUserReposUsecase));
+  });
+  List<UserRepoEntity> repos = [];
+  @override
+  void initState() {
+    // var a =
+    // Provider((ref) {
+    //   print("aaa");
+    //   ref.read(_userRepos.notifier).getUserReposUsecase(widget.entity.nick);
+    //   print(repos);
+    // });
+    // print(a);
+
+    context
+        .read(_userRepos.notifier)
+        .getUserReposUsecase(widget.entity.nick)
+        .then((value) {
+      value?.fold((l) => null, (r) {
+        print(r);
+        context.read(_userRepos.notifier).repos.addAll(r);
+      });
+    });
+    print(repos);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    // ignore: avoid_unnecessary_containers
+    context.read(_userRepos.notifier).getUserReposUsecase(widget.entity.nick);
+
+    repos = context.read(_userRepos.notifier).repos;
     return Expanded(
       child: Container(
         child: Column(
@@ -70,7 +79,7 @@ class UserRepoListWidget extends StatelessWidget {
                   children: [
                     // ignore: prefer_const_constructors
                     Text(
-                      "Yhan17",
+                      widget.entity.nick,
                       style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 12,
@@ -88,21 +97,23 @@ class UserRepoListWidget extends StatelessWidget {
                 ),
               ),
             ),
-            Flexible(
-              flex: 5,
-              child: Container(
-                child: ListView.builder(
-                  itemCount: repos.length,
-                  itemBuilder: (context, index) {
-                    final entity = UserRepoEntity(
-                        forks: repos[index]['forks'] as int,
-                        name: repos[index]['name'].toString(),
-                        stars: repos[index]['stars'] as int,
-                        description: repos[index]['description'].toString());
-                    return GithubRepoCard(repo: entity, repoOwner: "Yhan17");
-                  },
-                ),
-              ),
+            Consumer(
+              builder: (context, watch, child) {
+                watch(_userRepos.notifier).getUserRepos(widget.entity.nick);
+                final repos = watch(_userRepos.notifier).repos;
+                return Flexible(
+                  flex: 5,
+                  child: Container(
+                    child: ListView.builder(
+                      itemCount: repos.length,
+                      itemBuilder: (context, index) {
+                        return GithubRepoCard(
+                            repo: repos[index], repoOwner: widget.entity.nick);
+                      },
+                    ),
+                  ),
+                );
+              },
             )
           ],
         ),

@@ -14,48 +14,57 @@ class UserProfileTopbarWidget extends PreferredSize {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 80,
-                          height: 80,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(900),
-                            image: DecorationImage(
-                                image: NetworkImage(entity.avatar),
-                                fit: BoxFit.fill),
+                    Flexible(
+                      flex: 3,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 80,
+                            height: 80,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(900),
+                              image: DecorationImage(
+                                  image: NetworkImage(entity.avatar),
+                                  fit: BoxFit.fill),
+                            ),
                           ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(left: 19.0),
-                          height: 90,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                entity.nick,
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontFamily: "SF Pro Display"),
-                              ),
-                              Text(entity.name,
+                          Container(
+                            padding: const EdgeInsets.only(left: 19.0),
+                            height: 90,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  entity.nick,
                                   style: const TextStyle(
-                                      color: Colors.grey,
+                                      color: Colors.white,
                                       fontSize: 20,
-                                      fontFamily: "SF Pro Display"))
-                            ],
-                          ),
-                        )
-                      ],
+                                      fontFamily: "SF Pro Display"),
+                                ),
+                                Text(entity.name,
+                                    style: const TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 20,
+                                        fontFamily: "SF Pro Display"))
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                    Text(entity.bio,
+                    Flexible(
+                      flex: 1,
+                      child: Text(
+                        entity.bio,
                         style: const TextStyle(
                             color: Colors.white,
                             fontSize: 20,
-                            fontFamily: "SF Pro Display"))
+                            fontFamily: "SF Pro Display"),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    )
                   ],
                 ),
               ),

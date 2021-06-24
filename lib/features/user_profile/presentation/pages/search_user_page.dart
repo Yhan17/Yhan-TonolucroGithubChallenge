@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tonolucro_challenge/features/user_profile/domain/usecases/get_user_repos_usecase.dart';
 
 import '/features/user_profile/domain/usecases/get_user_profile_usecase.dart';
-import '/features/user_profile/domain/usecases/get_user_repos_usecase.dart';
 import '/features/user_profile/external/github/github_user_profile_datasource.dart';
 import '/features/user_profile/infra/repositories/user_profile_repository_implementation.dart';
 import '/features/user_profile/presentation/providers/search_page_state.dart';
@@ -13,7 +13,7 @@ class SearchUserPage extends ConsumerWidget {
   SearchUserPage({Key? key}) : super(key: key);
   static const image = "assets/images/github.png";
   final _userProfile =
-      StateNotifierProvider<SearchProfileNotifierProvider, ProfileState>((
+      StateNotifierProvider<SearchProfileNotifierProvider, SearchState>((
     ref,
   ) {
     final profileDataSource = Provider((ref) => GithubUserProfileDatasource());
@@ -22,12 +22,9 @@ class SearchUserPage extends ConsumerWidget {
 
     final getUserProfileUsecase = Provider(
         (ref) => GetUserProfileUsecase(ref.read(userProfileRepository)));
-    final getUserReposUsecase =
-        Provider((ref) => GetUserReposUsecase(ref.read(userProfileRepository)));
 
     return SearchProfileNotifierProvider(
       getUserProfileUsecase: ref.read(getUserProfileUsecase),
-      getUserReposUsecase: ref.read(getUserReposUsecase),
     );
   });
   final TextEditingController _controller = TextEditingController();
@@ -67,12 +64,12 @@ class SearchUserPage extends ConsumerWidget {
                     child: Consumer(
                       builder: (context, watch, child) {
                         final state = watch(_userProfile);
-                        if (state is ProfileInitial) {
+                        if (state is SearchInitial) {
                           return SearchUserTextInputWidget(
                               controller: _controller);
                         }
 
-                        if (state is ProfileLoading) {
+                        if (state is SearchLoading) {
                           // ignore: avoid_unnecessary_containers
                           return const Padding(
                             padding: EdgeInsets.all(12),
@@ -84,7 +81,7 @@ class SearchUserPage extends ConsumerWidget {
                           );
                         }
 
-                        if (state is ProfileError) {
+                        if (state is SearchError) {
                           return SearchUserTextInputWidget(
                               controller: _controller,
                               errorText: "Erro ao realizar a requisição");
@@ -109,7 +106,6 @@ class SearchUserPage extends ConsumerWidget {
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
-
                         )),
                         padding: MaterialStateProperty.all(
                             const EdgeInsets.symmetric(
