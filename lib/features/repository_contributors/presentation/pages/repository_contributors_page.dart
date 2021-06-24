@@ -5,7 +5,9 @@ import 'package:tonolucro_challenge/features/repository_contributors/presentatio
 class RepositoryContributorsPage extends StatelessWidget {
   final List<ContributorEntity> contributors;
   final String repoName;
-  const RepositoryContributorsPage({Key? key, required this.contributors,required this.repoName}) : super(key: key);
+  const RepositoryContributorsPage(
+      {Key? key, required this.contributors, required this.repoName})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,10 @@ class RepositoryContributorsPage extends StatelessWidget {
       body: ListView.builder(
         itemCount: contributors.length,
         itemBuilder: (context, index) {
-          return GithubContributorsCard(contributor: contributors[index]);
+          return GithubContributorsCard(
+            contributor: contributors[index],
+            key: UniqueKey(),
+          );
         },
       ),
     );
