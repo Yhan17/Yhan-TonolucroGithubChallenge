@@ -36,25 +36,16 @@ class _UserRepoListWidgetState extends State<UserRepoListWidget> {
   List<UserRepoEntity> repos = [];
   @override
   void initState() {
-    // var a =
-    // Provider((ref) {
-    //   print("aaa");
-    //   ref.read(_userRepos.notifier).getUserReposUsecase(widget.entity.nick);
-    //   print(repos);
-    // });
-    // print(a);
-
+    super.initState();
     context
         .read(_userRepos.notifier)
         .getUserReposUsecase(widget.entity.nick)
         .then((value) {
       value?.fold((l) => null, (r) {
-        print(r);
-        context.read(_userRepos.notifier).repos.addAll(r);
+        repos.addAll(r);
+        setState(() {});
       });
     });
-    print(repos);
-    super.initState();
   }
 
   @override

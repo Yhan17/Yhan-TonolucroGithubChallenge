@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class GithubRepoCardIconWidget extends StatelessWidget {
   final Icon icon;
-  final String value;
+  final String? value;
   const GithubRepoCardIconWidget(
       {Key? key, required this.icon, required this.value})
       : super(key: key);
@@ -14,7 +14,10 @@ class GithubRepoCardIconWidget extends StatelessWidget {
       child: Row(
         children: [
           icon,
-          Text(value,
+          Text(
+              value != "null" && value != null
+                  ? value.toString()
+                  : "Não definido",
               style: const TextStyle(
                   color: Colors.white,
                   fontSize: 14,
