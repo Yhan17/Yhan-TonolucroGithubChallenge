@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:tonolucro_challenge/features/repository_contributors/domain/entities/contributor_entity.dart';
 
 class GithubContributorsCard extends StatelessWidget {
-  const GithubContributorsCard({Key? key}) : super(key: key);
+  final ContributorEntity contributor;
+  const GithubContributorsCard({Key? key, required this.contributor})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +27,8 @@ class GithubContributorsCard extends StatelessWidget {
                 height: 40,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(900),
-                  image: const DecorationImage(
-                      image: NetworkImage(
-                          "https://ui-avatars.com/api/?name=Yhan&color=ffffff&background=6a86a1"),
+                  image: DecorationImage(
+                      image: NetworkImage(contributor.avatar),
                       fit: BoxFit.fill),
                 ),
               ),
@@ -43,7 +45,7 @@ class GithubContributorsCard extends StatelessWidget {
                         fontSize: 14,
                         fontWeight: FontWeight.bold)),
                 // ignore: prefer_const_constructors
-                Text("Nome de Perfil",
+                Text(contributor.nick,
                     style: const TextStyle(
                         color: Colors.grey,
                         fontFamily: 'SF Pro Display',
@@ -59,7 +61,7 @@ class GithubContributorsCard extends StatelessWidget {
                     children: [
                       // ignore: prefer_const_constructors
                       TextSpan(
-                          text: "0",
+                          text: contributor.contributions.toString(),
                           style: const TextStyle(
                               color: Colors.white,
                               fontFamily: 'SF Pro Display',

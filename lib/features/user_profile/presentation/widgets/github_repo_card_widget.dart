@@ -1,12 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tonolucro_challenge/features/repository_contributors/domain/usecases/get_contributors_usecase.dart';
+import 'package:tonolucro_challenge/features/repository_contributors/external/github/github_contributor_datasource.dart';
+import 'package:tonolucro_challenge/features/repository_contributors/infra/repositories/contributor_repository_implementation.dart';
 import 'package:tonolucro_challenge/features/user_profile/domain/entities/user_repos_entity.dart';
+import 'package:tonolucro_challenge/features/user_profile/presentation/providers/contributors_notifier_provider.dart';
+import 'package:tonolucro_challenge/features/user_profile/presentation/providers/contributors_state.dart';
 import 'package:tonolucro_challenge/features/user_profile/presentation/widgets/github_repo_card_icon_widget.dart';
 
 class GithubRepoCard extends StatelessWidget {
   final UserRepoEntity repo;
   final String repoOwner;
-  const GithubRepoCard({Key? key, required this.repo, required this.repoOwner})
+  GithubRepoCard({Key? key, required this.repo, required this.repoOwner})
       : super(key: key);
+
+  final _repoContributors =
+      StateNotifierProvider<ContributorsNotifierProvider, ContributorsState>((
+    ref,
+  ) {
+    final profileDataSource = Provider((ref) => GithubContributorsDatasource());
+    final userProfileRepository = Provider((ref) =>
+        ContributorRepositoryImplementation(ref.read(profileDataSource)));
+
+    final getRepoContributors = Provider(
+        (ref) => GetContributorsUsecase(ref.read(userProfileRepository)));
+
+    return ContributorsNotifierProvider(
+      getRepoContributors: ref.read(getRepoContributors),
+    );
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -65,11 +87,15 @@ class GithubRepoCard extends StatelessWidget {
                 child: TextButton(
                     style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all(Color(0xFF24292E)),
+                          MaterialStateProperty.all(const Color(0xFF24292E)),
                       shape: MaterialStateProperty.all(RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5))),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      context
+                          .read(_repoContributors.notifier)
+                          .getProfile(repoOwner, repo.name);
+                    },
                     // ignore: prefer_const_constructors
                     child: Text("Contribuintes",
                         style: const TextStyle(color: Color(0xFF2188FF)))))

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:tonolucro_challenge/features/repository_contributors/domain/entities/contributor_entity.dart';
 import 'package:tonolucro_challenge/features/repository_contributors/presentation/widgets/github_contriutors_card_widget.dart';
 
 class RepositoryContributorsPage extends StatelessWidget {
-  const RepositoryContributorsPage({Key? key}) : super(key: key);
+  final List<ContributorEntity> contributors;
+  final String repoName;
+  const RepositoryContributorsPage({Key? key, required this.contributors,required this.repoName}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +19,7 @@ class RepositoryContributorsPage extends StatelessWidget {
           children: [
             // ignore: prefer_const_constructors
             Text(
-              "Nome do Repositorio",
+              repoName,
               style: const TextStyle(
                   color: Colors.grey,
                   fontFamily: 'SF Pro Display',
@@ -34,9 +37,9 @@ class RepositoryContributorsPage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.onBackground,
       ),
       body: ListView.builder(
-        itemCount: 10,
+        itemCount: contributors.length,
         itemBuilder: (context, index) {
-          return const GithubContributorsCard();
+          return GithubContributorsCard(contributor: contributors[index]);
         },
       ),
     );

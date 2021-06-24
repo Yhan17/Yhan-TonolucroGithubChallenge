@@ -4,7 +4,6 @@ import 'package:tonolucro_challenge/core/app/navigation_service.dart';
 
 import '/core/app/routes/constants/router_constants.dart' as routes;
 import '/features/user_profile/domain/usecases/get_user_profile_usecase.dart';
-import '/features/user_profile/domain/usecases/get_user_repos_usecase.dart';
 import '/features/user_profile/presentation/providers/search_page_state.dart';
 
 class SearchProfileNotifierProvider extends StateNotifier<SearchState> {
